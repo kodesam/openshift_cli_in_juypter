@@ -1,0 +1,27 @@
+To use Ansible to get the Machine Config Pools (MCP) in OpenShift, you can use the `oc` command line tool and run it through the `command` module. Here's an example playbook:
+
+```yaml
+- name: Get Machine Config Pools in OpenShift
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Run oc command to get MCP
+      command: oc get mcp
+      register: oc_output
+
+    - name: Print output
+      debug:
+        msg: "{{ oc_output.stdout_lines }}"
+```
+
+In this playbook, we use the `command` module to run the `oc get mcp` command and register the output in the `oc_output` variable.
+
+Finally, we use the `debug` module to print the output from `oc_output.stdout_lines` variable.
+
+You can run this playbook using the `ansible-playbook` command:
+
+```
+ansible-playbook get_mcp.yaml
+```
+
+This playbook will run the `oc get mcp` command and display the MCP information in the console.
