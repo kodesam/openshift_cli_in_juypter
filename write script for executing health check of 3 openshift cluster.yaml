@@ -1,0 +1,47 @@
+Sure! Here's an example of an Ansible playbook to execute a health check on 3 OpenShift clusters:
+
+```yaml
+---
+- name: Execute health check on OpenShift clusters
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    clusters:
+      - name: cluster1
+        url: https://cluster1.example.com
+        token: abcdefg1234567890
+      - name: cluster2
+        url: https://cluster2.example.com
+        token: abcdefg1234567890
+      - name: cluster3
+        url: https://cluster3.example.com
+        token: abcdefg1234567890
+
+  tasks:
+    - name: Execute health check on clusters
+      command: oc --config={{ item.url }} --token={{ item.token }} get nodes
+      loop: "{{ clusters }}"
+      register: result
+
+    - name: Display health check results
+      debug:
+        msg: "{{ item.stdout }}"
+      loop: "{{ result.results }}"
+```
+
+In this playbook, we define a list of clusters with their respective URLs and tokens. The `command` module is then used to execute the OpenShift command `oc get nodes` on each cluster using the provided URL and token.
+
+The output from each cluster is stored in the `result` variable, and then we use the `debug` module to display the output for each cluster.
+
+You can customize this playbook further based on your specific health check requirements or add additional tasks to verify other aspects of cluster health.
+
+To execute this playbook, save it as a `.yaml` file (e.g., `health_check.yaml`) and run the following command:
+
+```bash
+ansible-playbook health_check.yaml
+```
+
+Make sure you have Ansible installed on your machine before running the playbook.
+
+Let me know if you need any further assistance!
