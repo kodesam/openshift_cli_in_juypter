@@ -1,0 +1,71 @@
+Sure! Here's an example of an Ansible playbook to execute multiple "oc get" commands on 3 OpenShift clusters and create a Jira ticket for each cluster:
+
+```yaml
+---
+- name: Execute OC get and create Jira ticket for OpenShift clusters
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    clusters:
+      - name: cluster1
+        url: https://cluster1.example.com
+        token: abcdefg1234567890
+        project: PROJECT1
+      - name: cluster2
+        url: https://cluster2.example.com
+        token: abcdefg1234567890
+        project: PROJECT2
+      - name: cluster3
+        url: https://cluster3.example.com
+        token: abcdefg1234567890
+        project: PROJECT3
+    jira_server: https://your-jira-server.com
+    jira_user: your-jira-username
+    jira_pass: your-jira-password
+
+  tasks:
+    - name: Execute oc get commands on clusters
+      command: oc --config={{ item.url }} --token={{ item.token }} get {{ item.oc_get_object }}
+      loop: "{{ clusters }}"
+      register: oc_get_result
+
+    - name: Create Jira tickets
+      uri:
+        method: POST
+        url: "{{ jira_server }}/rest/api/2/issue/"
+        user: "{{ jira_user }}"
+        password: "{{ jira_pass }}"
+        headers:
+          Content-Type: application/json
+        body: |
+          {
+            "fields": {
+              "project": {
+                "key": "{{ item.project }}"
+              },
+              "summary": "OpenShift Cluster Health Check - {{ item.name }}",
+              "description": "The output of the 'oc get' command is as follows:<br><br>{{ item.stdout }}",
+              "issuetype": {
+                "name": "Task"
+              }
+            }
+          }
+      loop: "{{ oc_get_result.results }}"
+```
+
+In this playbook, we define a list of clusters with their respective URLs, tokens, and Jira project keys. The `command` module is then used to execute the 'oc get' command on each cluster, and the output is stored in the `oc_get_result` variable.
+
+Next, the `uri` module is used to create a Jira ticket for each cluster. You'll need to provide the appropriate Jira server URL, username, and password. The Jira ticket details, including the project key, summary, and description, are dynamically generated using the `oc_get_result` variable.
+
+You can customize this playbook further based on your specific 'oc get' commands or modify the Jira ticket details as needed.
+
+To execute this playbook, save it as a `.yaml` file (e.g., `oc_get_create_jira.yaml`) and run the following command:
+
+```bash
+ansible-playbook oc_get_create_jira.yaml
+```
+
+Make sure you have Ansible installed on your machine before running the playbook.
+
+Let me know if you need any further assistance!
