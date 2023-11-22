@@ -1,0 +1,26 @@
+Sure! Here's an example of Ansible code to retrieve pods from an OpenShift cluster using the `oc` command:
+
+```yaml
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Get pods
+      command: oc get pods --all-namespaces -o=json
+      register: result
+      changed_when: false
+
+    - name: Print pods
+      debug:
+        msg: "{{ result.stdout | from_json }}"
+```
+
+This playbook connects to the local machine and uses the `oc` command to retrieve all pods from all namespaces in the cluster. The result is stored in the `result` variable and then printed using the `debug` module.
+
+You can execute this playbook using the Ansible command:
+
+```
+ansible-playbook playbook.yml
+```
+
+Make sure you have the `oc` command installed and properly authenticated with your OpenShift cluster.
