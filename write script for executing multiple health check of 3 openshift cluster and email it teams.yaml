@@ -1,0 +1,66 @@
+Sure! Here's an example of an Ansible playbook to execute multiple health checks on 3 OpenShift clusters and send an email to the teams:
+
+```yaml
+---
+- name: Execute and email health check report for OpenShift clusters
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    clusters:
+      - name: cluster1
+        url: https://cluster1.example.com
+        token: abcdefg1234567890
+      - name: cluster2
+        url: https://cluster2.example.com
+        token: abcdefg1234567890
+      - name: cluster3
+        url: https://cluster3.example.com
+        token: abcdefg1234567890
+    email_recipients:
+      - team1@example.com
+      - team2@example.com
+
+  tasks:
+    - name: Execute health check on clusters
+      command: oc --config={{ item.url }} --token={{ item.token }} get nodes
+      loop: "{{ clusters }}"
+      register: result
+
+    - name: Generate health check report
+      set_fact:
+        health_check_report: "{{ health_check_report|default([]) + [item.stdout_lines] }}"
+      loop: "{{ result.results }}"
+
+    - name: Send email report
+      mail:
+        host: smtp.example.com
+        port: 25
+        subject: "OpenShift Health Check Report"
+        body: |
+          The health check report is as follows:
+          {% for report in health_check_report %}
+          Cluster: {{ report.0.item.name }}
+          {{ report.0.stdout }}
+          {% endfor %}
+        from: health-check@example.com
+        to: "{{ email_recipients }}"
+```
+
+In this playbook, we define a list of clusters with their respective URLs and tokens, as well as a list of email recipients. The `command` module is then used to execute the OpenShift command `oc get nodes` on each cluster using the provided URL and token.
+
+The output from each cluster is stored in the `result` variable, and then we use the `set_fact` module to generate a health check report by appending the `stdout_lines` of each cluster to the `health_check_report` list.
+
+Finally, the `mail` module is used to send an email report. You'll need to provide the appropriate SMTP server details (`host`, `port`) and configure the `from` and `to` email addresses. The subject and body of the email are dynamically generated using the `health_check_report` variable.
+
+You can customize this playbook further based on your specific health check requirements or modify the email content as needed.
+
+To execute this playbook, save it as a `.yaml` file (e.g., `health_check_email.yaml`) and run the following command:
+
+```bash
+ansible-playbook health_check_email.yaml
+```
+
+Make sure you have Ansible installed on your machine before running the playbook.
+
+Let me know if you need any further assistance!
