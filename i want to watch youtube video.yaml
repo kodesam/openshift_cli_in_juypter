@@ -1,0 +1,29 @@
+To watch YouTube videos in the Linux terminal, you can use a command-line tool called `mps-youtube`. It allows you to browse and play YouTube videos directly from the command line. Here's how you can install and use it:
+
+1. Install `mps-youtube`:
+```shell
+sudo apt-get install mps-youtube
+```
+
+2. Launch `mps-youtube`:
+```shell
+mpsyt
+```
+
+3. Search for a video:
+```
+> /search VIDEO_NAME
+```
+Replace `VIDEO_NAME` with the name of the video you want to watch.
+
+4. Select a video from the search results:
+```
+> <video_number>
+```
+Replace `<video_number>` with the number of the video from the search results you want to watch.
+
+`mps-youtube` will fetch the video and play it using a built-in video player. You can control playback by using commands such as `pause`, `resume`, `stop`, and so on.
+
+Please note that `mps-youtube` may not support playing all YouTube videos due to copyright restrictions or video format compatibility. Additionally, the quality of the video playback may not be as good as watching videos in a graphical web browser.
+
+I hope this helps you watch YouTube videos from the Linux terminal using the `mps-youtube` tool!
