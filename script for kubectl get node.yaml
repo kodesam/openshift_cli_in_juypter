@@ -1,0 +1,27 @@
+Sure! You can create a Linux shell script to execute the `kubectl get node` command. Here's an example:
+
+```bash
+#!/bin/bash
+
+# Set the kubeconfig file path
+export KUBECONFIG=/path/to/your/kubeconfig.yaml
+
+# Execute kubectl get node command
+kubectl get node
+```
+
+Save the above script to a file, such as `get_nodes.sh`. Make sure to replace `/path/to/your/kubeconfig.yaml` with the actual path to your kubeconfig file.
+
+Make the script executable by running the following command:
+
+```shell
+chmod +x get_nodes.sh
+```
+
+You can then execute the script by running:
+
+```shell
+./get_nodes.sh
+```
+
+It will use the specified kubeconfig file to execute the `kubectl get node` command and display the node information on the console.
