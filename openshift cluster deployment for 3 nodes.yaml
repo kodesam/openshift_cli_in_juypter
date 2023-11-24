@@ -1,0 +1,55 @@
+To deploy an OpenShift cluster with 3 nodes using Ansible, you can use the OpenShift Container Platform installer. Here's an example of how you can achieve it:
+
+Ansible playbook (`openshift_deploy.yml`):
+```yaml
+- name: Deploy OpenShift cluster
+  hosts: master
+  tasks:
+    - name: Download OpenShift installer
+      get_url:
+        url: "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest"
+        dest: /tmp/openshift-installer.tar.gz
+
+    - name: Extract OpenShift installer
+      archive:
+        src: /tmp/openshift-installer.tar.gz
+        dest: /tmp
+        format: tar
+
+    - name: Copy installer to master node
+      copy:
+        src: /tmp/openshift-install
+        dest: /usr/local/bin/
+        mode: "u+x,g+x,o+x"
+
+    - name: Create OpenShift install config
+      command: >
+        openshift-install create install-config
+        --dir=/tmp/install
+
+    - name: Define OpenShift cluster resources
+      command: >
+        openshift-install create cluster
+        --dir=/tmp/install
+        --log-level=info
+
+    - name: Wait for OpenShift cluster to be ready
+      command: >
+        openshift-install wait-for install-complete
+        --dir=/tmp/install
+        --log-level=info
+```
+
+In this playbook, we first download the OpenShift installer and extract it. Then, we copy the installer binary to the master node's `/usr/local/bin/` directory. Next, we create the OpenShift installation configuration and define the cluster resources. Finally, we wait for the installation to complete.
+
+To execute this playbook, you can use the `ansible-playbook` command:
+
+```shell
+ansible-playbook -i inventory.ini openshift_deploy.yml
+```
+
+Ensure that you have an `inventory.ini` file with your hosts configured, and replace `master` with the appropriate group or IP address of your master node.
+
+Please note that this is just a basic example, and you may need to modify it according to your specific infrastructure requirements and OpenShift version.
+
+I hope this helps you in deploying an OpenShift cluster with 3 nodes using Ansible!
