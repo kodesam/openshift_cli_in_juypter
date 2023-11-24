@@ -1,0 +1,25 @@
+To install Linux packages using Ansible, you can use the `apt` or `yum` modules depending on your Linux distribution.
+
+Here's an example of how to install a package using Ansible:
+
+```yaml
+- name: Install package using apt module
+  apt:
+    name: packageName
+    state: present
+
+- name: Install package using yum module
+  yum:
+    name: packageName
+    state: present
+```
+
+Replace `packageName` with the name of the package you want to install. This code will ensure that the specified package is installed on the target system.
+
+To execute this Ansible code, you need to create a playbook YAML file and run the Ansible command with the playbook specified:
+
+```bash
+ansible-playbook your-playbook.yaml
+```
+
+Make sure you have Ansible installed on the machine where you want to run this code.
