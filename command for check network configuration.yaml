@@ -1,0 +1,35 @@
+To check network configuration in Linux, you can use various commands depending on the specific information you want to retrieve. Here are a few common commands:
+
+1. `ifconfig` command:
+```shell
+ifconfig
+```
+This command displays information about the network interfaces, including IP addresses, netmasks, and other parameters.
+
+2. `ip` command:
+```shell
+ip addr show
+```
+or
+```shell
+ip a
+```
+This command provides detailed information about the network interfaces, including IP addresses, netmasks, and related settings.
+
+3. `netstat` command:
+```shell
+netstat -i
+```
+This command shows the network interfaces along with statistics, such as packet transmission and error rates.
+
+4. `route` command:
+```shell
+route -n
+```
+This command displays the kernel IP routing table, showing the network destinations and their associated gateways.
+
+Note that the above commands usually require root or superuser privileges to execute. Therefore, you may need to run them with `sudo` or as the root user.
+
+Linux distributions are transitioning to the use of the `ip` command, so it is recommended to use `ip` or `iproute2` commands like `ip addr show` and `ip route show`.
+
+Feel free to choose the appropriate command(s) based on the specific network information you need to retrieve.
