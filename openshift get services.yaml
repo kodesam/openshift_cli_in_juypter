@@ -1,0 +1,21 @@
+In an Ansible playbook, you can use the `oc` module to interact with the OpenShift command-line interface (CLI). Below is an example of how to use the `oc` module to get services in OpenShift:
+
+```yaml
+---
+- name: Get OpenShift services
+  hosts: localhost  # Assuming running the playbook on the Ansible control node
+
+  tasks:
+    - name: Use oc command to get services
+      oc:
+        command: get services
+      register: output
+
+    - name: Print output
+      debug:
+        var: output.stdout_lines
+```
+
+In this playbook, we first use the `oc` module with the `command` parameter set to "get services" to retrieve the list of services in OpenShift. The output of the command will be stored in the `output` variable.
+
+Finally, we use the `debug` module to print the stdout_lines attribute of the `output` variable, which contains the list of services.
