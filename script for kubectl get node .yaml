@@ -1,0 +1,22 @@
+Sure! Here's an example of an Ansible task that executes the `kubectl get node` command:
+
+```yaml
+- name: Execute kubectl get node
+  hosts: localhost
+  tasks:
+    - name: Run kubectl command
+      command: kubectl get node
+      register: kubectl_output
+
+    - name: Display kubectl output
+      debug:
+        var: kubectl_output.stdout_lines
+```
+
+You can save this as a YAML file (e.g., `kubectl_get_node.yml`) and execute it using the `ansible-playbook` command:
+
+```shell
+ansible-playbook kubectl_get_node.yml
+```
+
+This will execute the `kubectl get node` command on the localhost and display the output.
