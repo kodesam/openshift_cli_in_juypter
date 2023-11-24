@@ -1,0 +1,29 @@
+To restart services in Linux, you typically use the `systemctl` command. The exact command may vary depending on the specific service and your Linux distribution. Here are a few common usage examples:
+
+1. Restart a service by its name:
+```shell
+sudo systemctl restart SERVICE_NAME
+```
+Replace `SERVICE_NAME` with the name of the service you want to restart. For example, to restart the Apache HTTP server service, you would use:
+```shell
+sudo systemctl restart apache2
+```
+
+2. Restart a service using its service unit file:
+```shell
+sudo systemctl restart SERVICE_UNIT_FILE
+```
+Replace `SERVICE_UNIT_FILE` with the path to the service unit file. For example, to restart the SSH service, you would use:
+```shell
+sudo systemctl restart sshd.service
+```
+
+3. Restart all services:
+```shell
+sudo systemctl restart --all
+```
+This command will restart all currently active services on your Linux system.
+
+Remember to prepend the commands with `sudo` to run them with root privileges, as restarting services often requires administrative access.
+
+Please note that some older Linux distributions may use `service` instead of `systemctl` for service management. The usage may vary in such cases, and you should consult your distribution's documentation for the appropriate commands.
