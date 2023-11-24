@@ -1,0 +1,26 @@
+To create a Linux shell script that executes the `kubectl get node` command, you can follow these steps:
+
+1. Open a text editor and create a new file.
+2. Add the following content to the file:
+
+```bash
+#!/bin/bash
+
+# Execute kubectl get node command
+kubectl get node
+```
+
+3. Save the file with a name such as `get_nodes.sh`.
+4. Make the script executable by running this command in the terminal:
+
+```shell
+chmod +x get_nodes.sh
+```
+
+5. Finally, you can run the script using this command:
+
+```shell
+./get_nodes.sh
+```
+
+This will execute the `kubectl get node` command and display the node information in the console. Make sure you have the `kubectl` command installed and properly configured to connect with your Kubernetes cluster.
